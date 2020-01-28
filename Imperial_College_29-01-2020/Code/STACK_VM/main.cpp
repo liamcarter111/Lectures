@@ -47,7 +47,7 @@ int main(int argc, char **argv)
             const uint8_t opcode = program[i];
             switch (opcode)
             {
-            case Opcode::PUSH:
+            case PUSH:
             {
                 i++; // Align the operand
                 const size_t address = (size_t)program[i];
@@ -60,7 +60,7 @@ int main(int argc, char **argv)
                 break;
             }
 
-            case Opcode::ADD:
+            case ADD:
             {
                 const uint8_t rhs = stack.top();
                 stack.pop();
