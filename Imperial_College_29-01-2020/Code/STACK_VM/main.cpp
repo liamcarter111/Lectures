@@ -54,8 +54,8 @@ int main(int argc, char **argv)
                 const uint8_t heapData = heap[address];
                 stack.push(heap[address]);
 
-                std::cout << "PUSH 0x" << std::hex << address
-                          << std::dec << "\n";
+                //std::cout << "PUSH 0x" << std::hex << address
+                //          << std::dec << "\n";
 
                 break;
             }
@@ -68,29 +68,21 @@ int main(int argc, char **argv)
                 stack.pop();
                 stack.push(lhs + rhs);
 
-                std::cout << "ADD"
-                          << "\n";
+                //std::cout << "ADD"
+                //          << "\n";
 
                 break;
             }
 
             default:
             {
-                std::cout << "ERROR"
-                          << "\n";
+                //std::cout << "ERROR"
+                //          << "\n";
                 return 1;
             }
             }
         }
 
-        if (!stack.empty())
-        {
-            int returnCode = stack.top();
-            std::cout << "Returned " << std::to_string(returnCode)
-                      << "\n";
-            return returnCode;
-        }
-
-        return 0;
+        return stack.empty() ? 0 : stack.top();
     }
 }

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<style>
+  html {
+    background-color: black;
+    color: white;
+  }
+</style>
+<script>
+  async function init() {
+    const { instance } = await WebAssembly.instantiateStreaming(
+      fetch("./add.wasm")
+    );
+    var a = (Math.random() * 0xff) | 0;
+    var b = (Math.random() * 0xff) | 0;
+    var r = a + b;
+    document.body.innerHTML += `<div>${a}+${b}=${r}<div>`;
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+  setInterval(init);
+</script>
