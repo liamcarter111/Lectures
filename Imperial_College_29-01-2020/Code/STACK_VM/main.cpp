@@ -49,23 +49,28 @@ int main(int argc, char **argv)
             {
             case Opcode::PUSH:
             {
-                const size_t operand = (size_t)program[++i];
-                const uint8_t heapData = heap[operand];
-                std::cout << "PUSH " << operand
-                          << "\n";
-                stack.push(heap[operand]);
+                i++; // Align the operand
+                const size_t address = (size_t)program[i];
+                const uint8_t heapData = heap[address];
+                stack.push(heap[address]);
+
+                std::cout << "PUSH 0x" << std::hex << address
+                          << std::dec << "\n";
+
                 break;
             }
 
             case Opcode::ADD:
             {
-                std::cout << "ADD"
-                          << "\n";
                 const uint8_t rhs = stack.top();
                 stack.pop();
                 const uint8_t lhs = stack.top();
                 stack.pop();
                 stack.push(lhs + rhs);
+
+                std::cout << "ADD"
+                          << "\n";
+
                 break;
             }
 
