@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<style>
+  html {
+    background-color: black;
+    color: white;
+  }
+</style>
+<script src="Stack_VM.js"></script>
+<script>
+  Module.onRuntimeInitialized = () => {
+    const r = Module._test();
+    document.body.innerHTML += `<div>${r}</div>`;
+  };
+</script>
