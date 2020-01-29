@@ -1,6 +1,6 @@
 #include <stack>
 #include <vector>
-#include <iostream>
+//#include <iostream>
 #include <ios>
 #include <string>
 #include <fstream>
@@ -24,22 +24,17 @@ enum Opcode
     ADD = 0x1
 };
 
-int main(int argc, char **argv)
+int Execute(const uint8_t *programBytes, const size_t programLength, const uint8_t *memoryBytes = nullptr, const size_t memoryLength = 0)
 {
-    if (argc > 1)
+    if (memoryBytes != nullptr && memoryLength > 0)
     {
-        const std::vector<uint8_t> program = ReadAllBytes(argv[1]);
-
-        std::vector<uint8_t> heap;
+        const std::vector<uint8_t> program(programBytes, programBytes + programLength);
+        std::vector<uint8_t> heap(1024);
         std::stack<uint8_t> stack;
 
-        if (argc > 2)
+        if (memoryBytes != nullptr && memoryLength > 0)
         {
-            heap = ReadAllBytes(argv[2]);
-        }
-        else
-        {
-            heap.reserve(4098);
+            heap.assign(memoryBytes, memoryBytes + memoryLength);
         }
 
         for (int i = 0; i < program.size(); ++i)
@@ -85,4 +80,31 @@ int main(int argc, char **argv)
 
         return stack.empty() ? 0 : stack.top();
     }
+    return 1;
+}
+
+extern "C" int test()
+{
+    const std::vector<uint8_t> program = ReadAllBytes("program.bin");
+    std::vector<uint8_t> heap = ReadAllBytes("memory.bin");
+    return Execute(program.data(), program.size(), heap.data(), heap.size());
+}
+
+int main(int argc, char **argv)
+{
+    if (argc > 1)
+    {
+        const std::vector<uint8_t> program = ReadAllBytes(argv[1]);
+
+        if (argc > 2)
+        {
+            std::vector<uint8_t> heap = ReadAllBytes(argv[2]);
+            return Execute(program.data(), program.size(), heap.data(), heap.size());
+        }
+        else
+        {
+            return Execute(program.data(), program.size(), nullptr, 0);
+        }
+    }
+    return 1;
 }

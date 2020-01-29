@@ -1,1 +1,1 @@
-emcc -o Stack_VM.wasm main.cpp -O3 -s "EXPORTED_FUNCTIONS=['_main','_malloc','_free']"
+emcc -o Stack_VM.js main.cpp -O3 -s "EXPORTED_FUNCTIONS=['_test']" --preload-file .\memory.bin --preload-file .\program.bin
